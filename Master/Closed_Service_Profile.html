@@ -1,0 +1,99 @@
+﻿<!--Closed Service Profile-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Closed Service Request Profile</title>
+</head>
+<body>
+    <form class="ui center aligned input form container" id="closed_service_form">
+        <table class="ui center aligned fixed inverted celled table" aria-describedby="Closed Service Request Profile Table" style="color:gold">
+            <thead>
+                <tr>
+                    <th colspan="4" scope="colgroup"> Closed Service Request Profile </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="2" style="font-weight:bolder">Service ID</td>
+                    <td colspan="2">
+                        <select class="ui dropdown" id="requestId" name="requestId" style="background-color:black; color:gold" required>
+                            <option value="" selected disabled hidden>Select a Service ID</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Employee ID </td> <td> <label id="employeeId" name="employeeId" style="color:gold"></label></td>
+                    <td style="font-weight:bolder">Customer ID </td> <td> <label id="customerId" name="customerId" style="color:gold"></label></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Created Date </td> <td> <label id="dateIn" name="dateIn" style="color:gold"></label></td>
+                    <td style="font-weight:bolder">VIN </td> <td> <label id="vin" name="vin" style="color:gold"></label></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Odometer </td> <td>  <label id="odometer" name="odometer" style="color:gold"></label></td>
+                    <td style="font-weight:bolder">Fuel Level </td> <td> <label id="fuelLevel" name="fuelLevel" style="color:gold"></label></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Close Date</td>
+                    <td><input type="date" class="ui textbox" id="dateOut" name="dateOut" style="background-color:black; color:gold" required /></td>
+                    <td style="font-weight:bolder">Bill Date</td>
+                    <td><input type="date" class="ui textbox" id="billDate" name="billDate" style="background-color:black; color:gold" required /></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Labour Cost</td>
+                    <td><input type="number" min="0" class="ui textbox" id="laborCost" name="laborCost" style="background-color:black; color:gold" required /></td>
+                    <td style="font-weight:bolder">Tax (%)</td>
+                    <td><input type="number" min="0" max="100" class="ui textbox" id="tax" name="tax" style="background-color:black; color:gold" required /></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Discount (%)</td>
+                    <td><input type="number" min="0" max="100" class="ui textbox" id="discount" name="discount" style="background-color:black; color:gold" required /></td>
+                    <td style="font-weight:bolder">Total Cost</td>
+                    <td><input type="number" min="0" class="ui textbox" id="totalCost" name="totalCost" style="background-color:black; color:gold" required /></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="font-weight:bolder">Comments</td>
+                    <td colspan="2"><textarea rows="4" class="ui textarea" id="comments" name="comments" style="background-color:black; color:gold" required /></td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <input type="submit" class="ui inverted button" style="color:gold" />
+                        <input type="reset" class="ui inverted button" style="color:gold" />
+                        <button type="button" class="ui inverted button" style="color:gold" onclick="$('#box').load('Master/Closed_Service_Details.html');"> Back </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</body>
+</html>
+
+<script>
+
+    $(document).ready(function () {
+
+        AJAXCall('http://localhost:8080/api/servicerequest/all', 'GET', null, 'Pending_Service_Fill', null);
+
+        requestId = localStorage.getItem("requestId")
+
+        if (requestId !== null) {
+            var data = { requestId : requestId };
+            AJAXCall('http://localhost:8080/api/servicerequest/', 'GET', data, 'Closed_Service_View_Profile', null);
+        }
+
+        $("#requestId").change(function () {
+            data = { "requestId": $("#requestId").val() }
+            AJAXCall('http://localhost:8080/api/servicerequest/', 'GET', data, 'Closed_Service_Profile', null);
+        });
+
+        $("#closed_service_form").submit(function (e) {
+            e.preventDefault();
+            var data = $("#closed_service_form").serializeArray();
+            AJAXCall('http://localhost:8080/api/bill', 'POST', data, "Closed_Service_Post_Bill", null);
+        });
+
+    });
+
+</script>
+

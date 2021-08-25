@@ -1,0 +1,468 @@
+﻿
+
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Car Mechanic Shop</title>
+
+    <!--Scripts-->
+    <!--jQuery-->
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <!--Semantic UI-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.js"
+            integrity="sha512-VYhOmOOgmYsSFb0oxQcqkRrm/YmAnwNcuahdvSfMaQW7JqWb9g6XUciSICYUEOd0C3N+s1fN+Kkn85q+iYsDew=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer">
+    </script>
+    <!--Datatables UI-->
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+
+
+    <!--Stylesheets-->
+    <!--Semantic UI-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.css"
+          integrity="sha512-+AdxWMqfOdtwMuXK482e5OgHYzN06s97n3NTAeAdTlUvlIgCBx3SUKvMculJIedylDfVCaQFdD6HaojI4aeBUA=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+    <!--Datatables UI-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" />
+
+    <style>
+
+        tbody td {
+            color: gold;
+            background-color: #343434;
+        }
+
+        ::-webkit-calendar-picker-indicator {
+            color: gold;
+            background-color: gold;
+            border-color: gold;
+        }
+
+        .center_box {
+            position: absolute;
+            top: 48%;
+            left: 42%;
+            padding: 15px;
+            transform: translate(-50%, -50%);
+        }
+
+        #footer {
+            position: fixed;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            padding: 1rem;
+            background-color: black;
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body onloadstart="loadStart()" onload="loadEnd()" onbeforeunload="loadStart()" onunload="loadEnd()">
+    <div class="ui active dimmer" id="dimmer">
+        <div class="ui medium text loader" id="loaderElement">
+            Please Wait
+        </div>
+    </div>
+    <div class="ui bottom attached segment pushable" style="border-color: black;">
+        <div class="ui sidebar visible vertical menu left" style="background-color: black">
+            <div class="item">
+                <img src="Images/Logo.png" style="height:150px; margin:auto" alt="Sidebar Logo" />
+            </div>
+
+            <div class="item">
+                <i class="home icon" style="color: gold" aria-hidden="true"></i>
+                <a style="font-weight:bolder; color:gold" href="" id="home_page">Home</a>
+            </div>
+
+            <div class="item" style="font-weight:bolder; color:gold" id="MasterFunctions">
+                <i class="archive layout icon" aria-hidden="true"></i>
+                Master Tables
+                <div class="menu" style="padding:5px">
+                    <a class="item" style="font-weight:bolder; color:gold" href="" id="customer_details">Customer Table</a>
+                    <a class="item" style="font-weight:bolder; color:gold" href="" id="mechanic_details">Mechanic Table</a>
+                    <a class="item" style="font-weight:bolder; color:gold" href="" id="car_details">Car Table</a>
+                    <a class="item" style="font-weight:bolder; color:gold" href="" id="pending_service_details">Pending Service Request Table</a>
+                    <a class="item" style="font-weight:bolder; color:gold" href="" id="closed_service_details">Closed Service Request Table</a>
+                </div>
+            </div>
+
+            <div class="item" style="font-weight:bolder; color:gold" id="MappingFunctions">
+                <i class="filter icon" aria-hidden="true"></i>
+                Filter Options
+                <div class="menu" style="padding:5px">
+                    <a class="item" style="font-weight:bolder; color:gold" href="" id="filter_six_details">Filter 6</a>
+                    <a class="item" style="font-weight:bolder; color:gold" href="" id="filter_seven_details">Filter 7</a>
+                    <a class="item" style="font-weight:bolder; color:gold" href="" id="filter_eight_details">Filter 8</a>
+                    <a class="item" style="font-weight:bolder; color:gold" href="" id="filter_nine_details">Filter 9</a>
+                    <a class="item" style="font-weight:bolder; color:gold" href="" id="filter_ten_details">Filter 10</a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="pusher" style="background-color: rgba(218,198,123,255); position: relative; ">
+            <div id="box" class="center_box"> </div>
+        </div>
+    </div> <!--Here -->
+
+    <div class="ui inverted vertical footer segment" id="footer">
+        <div class="ui container" style="color:gold; font-style:italic; font-family: 'monospace'; font-size:large">
+            "Reassuring Performance"
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    
+    $(document).ready(function () {
+        $('#home_page').click(function (e) {
+            e.preventDefault();
+            $("#box").load("Team_Information.html");
+            return false;
+        });
+
+        $('#customer_details').click(function (e) {
+            e.preventDefault();
+            $("#box").load("Master/Customer_Details.html");
+            return false;
+        });
+
+        $('#mechanic_details').click(function (e) {
+            e.preventDefault();
+            $("#box").load("Master/Mechanic_Details.html");
+            return false;
+        });
+
+        $('#car_details').click(function (e) {
+            e.preventDefault();
+            $("#box").load("Master/Car_Details.html");
+            return false;
+        });
+
+        $('#pending_service_details').click(function (e) {
+            e.preventDefault();
+            $("#box").load("Master/Pending_Service_Details.html");
+            return false;
+        });
+
+        $('#closed_service_details').click(function (e) {
+            e.preventDefault();
+            $("#box").load("Master/Closed_Service_Details.html");
+            return false;
+        });
+
+        $('#filter_six_details').click(function (e) {
+            e.preventDefault();
+            $("#box").load("Filters/Filter_Six.html");
+            return false;
+        });
+
+        $('#filter_seven_details').click(function (e) {
+            e.preventDefault();
+            $("#box").load("Filters/Filter_Seven.html");
+            return false;
+        });
+
+        $('#filter_eight_details').click(function (e) {
+            e.preventDefault();
+            $("#box").load("Filters/Filter_Eight.html");
+            return false;
+        });
+
+        $('#filter_nine_details').click(function (e) {
+            e.preventDefault();
+            $("#box").load("Filters/Filter_Nine.html");
+            return false;
+        });
+
+        $('#filter_ten_details').click(function (e) {
+            e.preventDefault();
+            $("#box").load("Filters/Filter_Ten.html");
+            return false;
+        });
+
+    });
+
+    function loadStart() {
+        $("#dimmer").show();
+    }
+
+    function loadEnd() {
+        $("#dimmer").hide();
+        $("#box").load("Team_Information.html");
+    }
+
+    function AJAXCall(url, method, data, name, table) {
+        $(document).ready(function () {
+            if (method == "POST" || method == "PUT") {
+                data = parseData(data, name);
+            }
+            $.ajax({
+                url: url,
+                data: data,
+                type: method,
+                dataType: 'json',
+                success: function (response) {
+                    if (method == 'DELETE') {
+                        alert("Deleted Record => " + Object.keys(data)[0] + " : " + data[Object.keys(data)[0]]);
+                        $("#box").load("Master/" + name + ".html");
+                    }
+                    else { AJAXHandler(data, response, name, table); }
+                },
+                error: function () {
+                    console.log('error');
+                }
+            });
+            return false;
+        });
+    }
+
+    function parseData(data, name) {
+        var parsedData = {};
+        if (Array.isArray(data)) {
+            data.forEach((element) => {
+                parsedData[element.name] = element.value;
+            });
+        }
+        else { parsedData = data; }
+        return parsedData;
+    }
+
+    function AJAXHandler(data, response, name, table) {
+        if (name == "Customer_Details") {
+            response.forEach((element) => {
+                var update_element = '<a formnovalidate onclick="update_customer(' + element.customer_id + ')" style="cursor:pointer; color: gold">Update</a>';
+                table.row.add([element.customer_id, element.first_name, element.last_name, element.address, element.phone_number, update_element]);
+            });
+            table.draw();
+        }
+        else if (name == "Customer_Profile") {
+            document.getElementById("firstName").value = response[0].first_name;
+            document.getElementById("lastName").value = response[0].last_name;
+            document.getElementById("address").value = response[0].address;
+            document.getElementById("phone").value = response[0].phone_number;
+        }
+        else if (name == "Customer_Fill") {
+            select = document.getElementById("customerId");
+            response.forEach((element) => {
+                var customer = document.createElement('option');
+                customer.textContent = element.customer_id + " - " + element.first_name + " " + element.last_name;
+                customer.value = element.customer_id;
+                select.appendChild(customer);
+            });
+        }
+        else if (name == "Mechanic_Details") {
+            response.forEach((element) => {
+                var update_element = '<a formnovalidate onclick="update_mechanic(' + element.employee_id + ')" style="cursor:pointer; color: gold">Update</a>';
+                table.row.add([element.employee_id, element.first_name, element.last_name, element.speciality, element.yearsOfExp, element.roleName, element.rating, element.salary, update_element]);
+            });
+            table.draw();
+        }
+        else if (name == "Mechanic_Profile") {
+            document.getElementById("firstName").value = response[0].first_name;
+            document.getElementById("lastName").value = response[0].last_name;
+            document.getElementById("speciality").value = response[0].speciality;
+            document.getElementById("yearsOfExp").value = response[0].yearsOfExp;
+            document.getElementById("salary").value = response[0].salary;
+            document.getElementById("role").value = response[0].roleName;
+            document.getElementById("rating").value = response[0].rating;
+        }
+        else if (name == "Mechanic_Fill") {
+            select = document.getElementById("employeeId");
+            response.forEach((element) => {
+                var employee = document.createElement('option');
+                employee.textContent = element.employee_id + " - " + element.first_name + " " + element.last_name;
+                employee.value = element.employee_id;
+                select.appendChild(employee);
+            });
+        }
+        else if (name == "Car_Details") {
+            response.forEach((element) => {
+                var update_element = '<a formnovalidate onclick="update_car(\''+element.vin+'\')" style="cursor:pointer; color: gold">Update</a>';
+                table.row.add([element.vin, element.customer_id, element.make, element.model, element.yearOfManufacture, element.transmission, element.color, element.average_mileage, update_element]);
+            });
+            table.draw();
+        }
+        else if (name == "Car_Profile") {
+            document.getElementById("vin").value = response[0].vin;
+            document.getElementById("customerId").value = response[0].customer_id;
+            AJAXCall('http://localhost:8080/api/car/meta/id', 'GET', { "carId": response[0].car_id }, 'Car_Meta_Profile', null);
+        }
+        else if (name == "Car_Meta_Profile") {
+            document.getElementById("make").value = response[0].make;
+            document.getElementById("model").value = response[0].model;
+            document.getElementById("color").value = response[0].color;
+            document.getElementById("yearOfManufacture").value = response[0].yearOfManufacture;
+            document.getElementById("transmission").value = response[0].transmission;
+            document.getElementById("averageMileage").value = response[0].average_mileage;
+        }
+        else if (name == "Car_Fill") {
+            select = document.getElementById("vin");
+            response.forEach((element) => {
+                var car = document.createElement('option');
+                car.textContent = element.vin + " - " + element.make + " " + element.model;
+                car.value = element.vin;
+                select.appendChild(car);
+            });
+        }
+        else if (name == "Car_Search_Meta") {
+            if ("carId" in response[0]) {
+                data = parseData(data);
+                data["carId"] = response[0].carId;
+                AJAXCall('http://localhost:8080/api/car', 'POST', data, null, null);
+                $("#box").load("Master/Car_Details.html");
+            }
+            else {
+                AJAXCall('http://localhost:8080/api/car/meta', 'POST', data, "Car_Post_Meta", null);
+            }
+        }
+        else if (name == "Car_Search_Meta_Update") {
+            if ("carId" in response[0]) {
+                data = parseData(data);
+                data["carId"] = response[0].carId;
+                AJAXCall('http://localhost:8080/api/car', 'PUT', data, null, null);
+                $("#box").load("Master/Car_Details.html");
+            }
+            else {
+                AJAXCall('http://localhost:8080/api/car/meta', 'POST', data, "Car_Post_Meta_Update", null);
+            }
+        }
+        else if (name == "Car_Post_Meta") {
+            data["carId"] = response[0].carId;
+            AJAXCall('http://localhost:8080/api/car', 'POST', data, null, null);
+            $("#box").load("Master/Car_Details.html");
+        }
+        else if (name == "Car_Post_Meta_Update") {
+            data["carId"] = response[0].carId;
+            AJAXCall('http://localhost:8080/api/car', 'PUT', data, null, null);
+            $("#box").load("Master/Car_Details.html");
+        }
+        else if (name == "Pending_Service_Details") {
+            response.forEach((element) => {
+                if (element.status_id == 1) {
+                    var update_element = '<a formnovalidate onclick="update_service_request(' + element.request_id + ')" style="cursor:pointer; color: gold">Update</a>';
+                    table.row.add([element.request_id, element.vin, element.allocated_to, element.customer_id, element.odometer, element.fuel_level, element.comments, element.date_in, update_element]);
+                }
+            });
+            table.draw();
+        }
+        else if (name == "Pending_Service_Profile") {
+            document.getElementById("vin").value = response[0].vin;
+            document.getElementById("vin").setAttribute("disabled", "disabled");
+            document.getElementById("customerId").value = response[0].customer_id;
+            document.getElementById("customerId").setAttribute("disabled", "disabled");
+            document.getElementById("employeeId").value = response[0].allocated_to;
+            document.getElementById("odometer").value = response[0].odometer;
+            document.getElementById("fuelLevel").value = response[0].fuel_level;
+            document.getElementById("comments").value = response[0].comments;
+            document.getElementById("dateIn").value = response[0].date_in;
+        }
+        else if (name == "Pending_Service_Fill") {
+            select = document.getElementById("requestId");
+            response.forEach((element) => {
+                var employee = document.createElement('option');
+                employee.textContent = element.request_id;
+                employee.value = element.request_id;
+                select.appendChild(employee);
+            });
+        }
+        else if (name == "Closed_Service_Details") {
+            response.forEach((element) => {
+                if (element.status_id == 0) {
+                    var view_element = '<a formnovalidate onclick="view_service_request(' + element.request_id + ')" style="cursor:pointer; color: gold">View</a>';
+                    table.row.add([element.request_id, element.vin, element.allocated_to, element.customer_id, element.odometer, element.fuel_level, element.comments, element.date_in, view_element]);
+                }
+            });
+            table.draw();
+        } 
+        else if (name == "Closed_Service_Profile") {
+            document.getElementById("dateIn").innerHTML = response[0].date_in;
+            document.getElementById("vin").innerHTML = response[0].vin;
+            document.getElementById("customerId").innerHTML = response[0].customer_id;
+            document.getElementById("employeeId").innerHTML = response[0].allocated_to;
+            document.getElementById("odometer").innerHTML = response[0].odometer;
+            document.getElementById("fuelLevel").innerHTML = response[0].fuel_level;
+            document.getElementById("comments").value = response[0].comments;
+        }
+        else if (name == "Closed_Service_Post_Bill") {
+            data["employeeId"] = document.getElementById("employeeId").textContent;
+            data["dateIn"] = document.getElementById("dateIn").textContent;
+            data["odometer"] = document.getElementById("odometer").textContent;
+            data["fuelLevel"] = document.getElementById("fuelLevel").textContent;
+            data["billId"] = response[0].billId;
+            data["statusId"] = "0";
+            AJAXCall('http://localhost:8080/api/servicerequest/close', 'POST', data, null, null);
+            $("#box").load("Master/Closed_Service_Details.html");
+        }
+        else if (name == "Closed_Service_View_Profile") {
+            document.getElementById("requestId").value = response[0].request_id;
+            document.getElementById("dateIn").innerHTML = response[0].date_in;
+            document.getElementById("vin").innerHTML = response[0].vin;
+            document.getElementById("customerId").innerHTML = response[0].customer_id;
+            document.getElementById("employeeId").innerHTML = response[0].allocated_to;
+            document.getElementById("odometer").innerHTML = response[0].odometer;
+            document.getElementById("fuelLevel").innerHTML = response[0].fuel_level;
+            document.getElementById("dateOut").value = response[0].date_out;
+            document.getElementById("comments").value = response[0].comments;
+
+            document.getElementById("requestId").setAttribute("disabled", "disabled");
+            document.getElementById("dateOut").setAttribute("readonly", "readonly");
+            document.getElementById("comments").setAttribute("readonly", "readonly");
+            AJAXCall('http://localhost:8080/api/bill', 'GET', { "billId": response[0].bill_id }, "Closed_Service_View_Bill", null);
+        }
+        else if (name == "Closed_Service_View_Bill") {
+            document.getElementById("billDate").value = response[0].billDate;
+            document.getElementById("laborCost").value = response[0].labor_cost;
+            document.getElementById("tax").value = response[0].tax;
+            document.getElementById("discount").value = response[0].discount;
+            document.getElementById("totalCost").value = response[0].total_cost;
+
+            document.getElementById("billDate").setAttribute("readonly", "readonly");
+            document.getElementById("laborCost").setAttribute("readonly", "readonly");
+            document.getElementById("tax").setAttribute("readonly", "readonly");
+            document.getElementById("discount").setAttribute("readonly", "readonly");
+            document.getElementById("totalCost").setAttribute("readonly", "readonly");
+        }
+        else if (name == "Filter_Six_Details") {
+            response.forEach((element) => {
+                table.row.add([element.date_in, element.date_out, element.comments, element.total_cost]);
+            });
+            table.draw();
+        }
+        else if (name == "Filter_Seven_Details") {
+            response.forEach((element) => {
+                table.row.add([element.first_name, element.last_name]);
+            });
+            table.draw();
+        }
+        else if (name == "Filter_Eight_Details") {
+            response.forEach((element) => {
+                table.row.add([element.make, element.model, element.manufacture]);
+            });
+            table.draw();
+        }
+        else if (name == "Filter_Nine_Details") {
+            table.clear();
+            response.forEach((element) => {
+                table.row.add([element.make, element.model, element.manufacture]);
+            });
+            table.draw();
+        }
+        else if (name == "Filter_Ten_Details") {
+            response.forEach((element) => {
+                table.row.add([element.first_name, element.last_name, element.total_cost]);
+            });
+            table.draw();
+        }
+    }
+
+</script>

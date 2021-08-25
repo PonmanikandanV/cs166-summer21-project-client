@@ -1,0 +1,77 @@
+﻿<!--Customer Profile-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Customer Profile</title>
+</head>
+<body>
+    <form class="ui center aligned input form container" id="customer_profile_form">
+        <table class="ui center aligned fixed inverted celled table" aria-describedby="Customer Profile Table" style="color:gold">
+            <thead>
+                <tr>
+                    <th colspan="2" scope="colgroup"> Customer Profile </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="font-weight:bolder">First Name</td>
+                    <td><input type="text" class="ui textbox" id="firstName" name="firstName" style="background-color:black; color:gold" required /></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Last Name</td>
+                    <td><input type="text" class="ui textbox" id="lastName" name="lastName" style="background-color:black; color:gold" required /></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Address</td>
+                    <td><input type="text" class="ui textbox" id="address" name="address" style="background-color:black; color:gold" required /></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Phone Number</td>
+                    <td>
+                        <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" class="ui textbox" id="phone" name="phone" style="background-color:black; color:gold" required />
+                        <small>Format: 123-456-7890</small>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" class="ui inverted button" style="color:gold" />
+                        <input type="reset" class="ui inverted button" style="color:gold" />
+                        <button type="button" class="ui inverted button" style="color:gold" onclick="$('#box').load('Master/Customer_Details.html');" > Back </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</body>
+</html>
+
+<script>
+
+    $(document).ready(function () {
+
+        customerId = localStorage.getItem("customerId")
+
+        if (customerId !== null) {
+            var data = { "customerId": customerId };
+            AJAXCall('http://localhost:8080/api/customer', 'GET', data, 'Customer_Profile', null);
+        }
+
+        $("#customer_profile_form").submit(function (e) {
+            e.preventDefault();
+            if (customerId !== null) {
+                var data = $("#customer_profile_form").serializeArray();
+                data.push({ name : "customerId", value :  customerId });
+                AJAXCall('http://localhost:8080/api/customer', 'PUT', data, null, null);
+                $("#box").load("Master/Customer_Details.html");
+            }
+            else {
+                var data = $("#customer_profile_form").serializeArray();
+                AJAXCall('http://localhost:8080/api/customer', 'POST', data, null, null);
+                $("#box").load("Master/Customer_Details.html");
+            }
+        });
+
+    });
+
+</script>
