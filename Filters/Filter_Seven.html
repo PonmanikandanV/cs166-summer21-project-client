@@ -1,0 +1,36 @@
+﻿<!--Filter Seven Details-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Filter Seven</title>
+</head>
+<body>
+    <div class="ui center aligned input form container">
+        <table class="ui center aligned selectable inverted celled fixed table" style="color:gold" id="filter_seven_table">
+            <thead>
+                <tr>
+                    <th colspan="2">Filter Seven</th>
+                </tr>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+        var table = $('#filter_seven_table').DataTable({
+            pageLength: 5,
+            lengthMenu: [[5, 10, 20], [5, 10, 20]],
+            "ordering": true,
+        });
+        AJAXCall('http://localhost:8080/api/filter/seven', 'GET', null, 'Filter_Seven_Details', table);
+    });
+</script>

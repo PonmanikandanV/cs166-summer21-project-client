@@ -1,0 +1,86 @@
+﻿<!--Mechanic Profile-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Mechanic Profile</title>
+</head>
+<body>
+    <form class="ui center aligned input form container" id="mechanic_profile_form">
+        <table class="ui center aligned fixed inverted celled table" aria-describedby="Mechanic Profile Table" style="color:gold">
+            <thead>
+                <tr>
+                    <th colspan="2" scope="colgroup"> Mechanic Profile </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="font-weight:bolder">First Name</td>
+                    <td><input type="text" class="ui textbox" id="firstName" name="firstName" style="background-color:black; color:gold" required /></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Last Name</td>
+                    <td><input type="text" class="ui textbox" id="lastName" name="lastName" style="background-color:black; color:gold" required /></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Speciality</td>
+                    <td><input type="text" class="ui textbox" id="speciality" name="speciality" style="background-color:black; color:gold" required /></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Experience</td>
+                    <td><input type="number" min="0" max="100" class="ui textbox" id="yearsOfExp" name="yearsOfExp" style="background-color:black; color:gold" required /></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Salary</td>
+                    <td><input type="number" min="0" class="ui textbox" id="salary" name="salary" style="background-color:black; color:gold" required /></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Role</td>
+                    <td><input type="text" class="ui textbox" id="role" name="role" style="background-color:black; color:gold" required /></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Rating</td>
+                    <td><input type="number" min="0" max="10" id="rating" name="rating" style="background-color:black; color:gold" required /></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" class="ui inverted button" style="color:gold" />
+                        <input type="reset" class="ui inverted button" style="color:gold" />
+                        <button type="button" class="ui inverted button" style="color:gold" onclick="$('#box').load('Master/Mechanic_Details.html');"> Back </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</body>
+</html>
+
+<script>
+
+    $(document).ready(function () {
+
+        employeeId = localStorage.getItem("employeeId")
+
+        if (employeeId !== null) {
+            var data = { "employeeId" : employeeId };
+            AJAXCall('http://localhost:8080/api/mechanic', 'GET', data, 'Mechanic_Profile', null);
+        }
+
+        $("#mechanic_profile_form").submit(function (e) {
+            e.preventDefault();
+            if (employeeId !== null) {
+                var data = $("#mechanic_profile_form").serializeArray();
+                data.push({ name: "employeeId", value: employeeId });
+                AJAXCall('http://localhost:8080/api/mechanic', 'PUT', data, null, null);
+                $("#box").load("Master/Mechanic_Details.html");
+            }
+            else {
+                var data = $("#mechanic_profile_form").serializeArray();
+                AJAXCall('http://localhost:8080/api/mechanic', 'POST', data, null, null);
+                $("#box").load("Master/Mechanic_Details.html");
+            }
+        });
+
+    });
+
+</script>

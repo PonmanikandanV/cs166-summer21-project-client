@@ -1,0 +1,53 @@
+﻿<!--Customer Details-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Customer Details</title>
+</head>
+<body>
+    <div style="width:100%; text-align:center">
+        <button class="ui right button" style="color:gold; background-color:black;" onclick=add_customer()>Add Customer</button>
+    </div>
+    <div class="ui center aligned input form container">
+        <table class="ui center aligned selectable inverted celled fixed table" style="color:gold" id="customer_details_table">
+            <thead>
+                <tr>
+                    <th colspan="6">Customer Details</th>
+                </tr>
+                <tr>
+                    <th>Customer ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                    <th>Update</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
+<script>
+    function add_customer() {
+        localStorage.clear();
+        $("#box").load("Master/Customer_Profile.html");
+    }
+
+    function update_customer(customerId) {
+        localStorage.setItem("customerId", customerId);
+        $("#box").load("Master/Customer_Profile.html");
+    }
+
+    $(document).ready(function () {
+        var table = $('#customer_details_table').DataTable({
+            pageLength: 5,
+            lengthMenu: [[5, 10, 20], [5, 10, 20]],
+            "ordering": true,
+        });
+        AJAXCall('http://localhost:8080/api/customer/all', 'GET', null, 'Customer_Details', table);
+    });
+</script>

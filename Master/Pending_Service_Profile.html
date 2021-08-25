@@ -1,0 +1,106 @@
+﻿<!--Pending Service Request Profile-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Service Request Profile</title>
+</head>
+<body>
+    <form class="ui center aligned input form container" id="pending_service_request_profile_form">
+        <table class="ui center aligned fixed inverted celled table" aria-describedby="Service Request Profile Table" style="color:gold">
+            <thead>
+                <tr>
+                    <th colspan="2" scope="colgroup"> Service Request Profile </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="font-weight:bolder">VIN</td>
+                    <td>
+                        <select class="ui dropdown" id="vin" name="vin" style="background-color:black; color:gold" required>
+                            <option value="" selected disabled hidden>Select a VIN</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Employee ID</td>
+                    <td>
+                        <select class="ui dropdown" id="employeeId" name="employeeId" style="background-color:black; color:gold" required>
+                            <option value="" selected disabled hidden>Select an Employee ID</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Customer ID</td>
+                    <td>
+                        <select class="ui dropdown" id="customerId" name="customerId" style="background-color:black; color:gold" required>
+                            <option value="" selected disabled hidden>Select an Customer ID</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Odometer</td>
+                    <td><input type="number" min="0" class="ui textbox" id="odometer" name="odometer" style="background-color:black; color:gold" required /></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Fuel Level</td>
+                    <td><input type="number" min="0" max="100" class="ui textbox" id="fuelLevel" name="fuelLevel" style="background-color:black; color:gold" required /></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Complain</td>
+                    <td><textarea class="ui textarea" rows="4" id="comments" name="comments" style="background-color:black; color:gold" required /></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Date</td>
+                    <td><input type="date" class="ui textbox" id="dateIn" name="dateIn" style="background-color:black; color:gold" required /></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" class="ui inverted button" style="color:gold" />
+                        <input type="reset" class="ui inverted button" style="color:gold" />
+                        <button type="button" class="ui inverted button" style="color:gold" onclick="$('#box').load('Master/Pending_Service_Details.html');"> Back </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</body>
+</html>
+
+<script>
+
+    $(document).ready(function () {
+
+        AJAXCall('http://localhost:8080/api/customer/all', 'GET', null, 'Customer_Fill', null);
+        AJAXCall('http://localhost:8080/api/mechanic/all', 'GET', null, 'Mechanic_Fill', null);
+        AJAXCall('http://localhost:8080/api/car/all', 'GET', null, 'Car_Fill', null);
+
+        requestId = localStorage.getItem("requestId")
+
+        if (requestId !== null) {
+            var data = { "requestId": requestId };
+            AJAXCall('http://localhost:8080/api/servicerequest', 'GET', data, 'Pending_Service_Profile', null);
+        }
+
+        $("#pending_service_request_profile_form").submit(function (e) {
+            e.preventDefault();
+            if (requestId !== null) {
+                var data = $("#pending_service_request_profile_form").serializeArray();
+                data.push({ name: "requestId", value: requestId });
+                data.push({ name: "statusId", value: 1 });
+
+                AJAXCall('http://localhost:8080/api/servicerequest', 'PUT', data, null, null);
+                $("#box").load("Master/Pending_Service_Details.html");
+            }
+            else {
+                var data = $("#pending_service_request_profile_form").serializeArray();
+                data.push({ name: "statusId", value: 1 });
+
+                AJAXCall('http://localhost:8080/api/servicerequest', 'POST', data, null, null);
+                $("#box").load("Master/Pending_Service_Details.html");
+            }
+        });
+
+    });
+
+</script>

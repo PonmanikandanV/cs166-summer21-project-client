@@ -1,0 +1,38 @@
+﻿<!--Filter Six Details-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Filter Six</title>
+</head>
+<body>
+    <div class="ui center aligned input form container">
+        <table class="ui center aligned selectable inverted celled fixed table" style="color:gold" id="filter_six_table">
+            <thead>
+                <tr>
+                    <th colspan="4">Filter Six</th>
+                </tr>
+                <tr>
+                    <th>Date In</th>
+                    <th>Date Out</th>
+                    <th>Comments</th>
+                    <th>Total Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+        var table = $('#filter_six_table').DataTable({
+            pageLength: 5,
+            lengthMenu: [[5, 10, 20], [5, 10, 20]],
+            "ordering": true,
+        });
+        AJAXCall('http://localhost:8080/api/filter/six', 'GET', null, 'Filter_Six_Details', table);
+    });
+</script>

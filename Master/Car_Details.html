@@ -1,0 +1,58 @@
+﻿<!--Car Details-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Car Details</title>
+</head>
+<body>
+    <div style="width:100%; text-align:center">
+        <button class="ui right button" style="color:gold; background-color:black;" onclick=add_car()>Add Car</button>
+    </div>
+    <div class="ui center aligned input form container">
+        <table class="ui center aligned selectable inverted celled fixed table" id="car_details_table">
+            <thead>
+                <tr>
+                    <th colspan="9">Car Details</th>
+                </tr>
+                <tr>
+                    <th>VIN</th>
+                    <th>Customer ID</th>
+                    <th>Make</th>
+                    <th>Model</th>
+                    <th>Year</th>
+                    <th>Transmission</th>
+                    <th>Color</th>
+                    <th>Mileage</th>
+                    <th>Update</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
+<script>
+    function add_car() {
+        localStorage.clear();
+        $("#box").load("Master/Car_Profile.html");
+    }
+
+    function update_car(vin) {
+        console.log(vin);
+        localStorage.setItem("vin", vin);
+        $("#box").load("Master/Car_Profile.html");
+    }
+
+    $(document).ready(function () {
+        var table = $('#car_details_table').DataTable({
+            pageLength: 5,
+            lengthMenu: [[5, 10, 20], [5, 10, 20]],
+            "ordering": true,
+        });
+        AJAXCall('http://localhost:8080/api/car/all', 'GET', null, 'Car_Details', table);
+    });
+</script>
+

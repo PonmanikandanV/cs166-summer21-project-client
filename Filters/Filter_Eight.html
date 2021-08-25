@@ -1,0 +1,37 @@
+﻿<!--Filter Eight Details-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Filter Eight</title>
+</head>
+<body>
+    <div class="ui center aligned input form container">
+        <table class="ui center aligned selectable inverted celled fixed table" style="color:gold" id="filter_eight_table">
+            <thead>
+                <tr>
+                    <th colspan="3">Filter Eight</th>
+                </tr>
+                <tr>
+                    <th>Make</th>
+                    <th>Model</th>
+                    <th>Year</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+        var table = $('#filter_eight_table').DataTable({
+            pageLength: 5,
+            lengthMenu: [[5, 10, 20], [5, 10, 20]],
+            "ordering": true,
+        });
+        AJAXCall('http://localhost:8080/api/filter/eight', 'GET', null, 'Filter_Eight_Details', table);
+    });
+</script>

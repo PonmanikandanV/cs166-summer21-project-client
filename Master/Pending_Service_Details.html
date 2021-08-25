@@ -1,0 +1,56 @@
+﻿<!--Pending Service Request Details-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Pending Service Request Details</title>
+</head>
+<body>
+    <div style="width:100%; text-align:center">
+        <button class="ui right button" style="color:gold; background-color:black;" onclick=add_service_request()>Add Service Request</button>
+    </div>
+    <div class="ui center aligned input form container">
+        <table class="ui center aligned selectable inverted celled fixed table" id="pending_service_details_table">
+            <thead>
+                <tr>
+                    <th colspan="9">Pending Service Request Details</th>
+                </tr>
+                <tr>
+                    <th>Service ID</th>
+                    <th>VIN</th>
+                    <th>Employee ID</th>
+                    <th>Customer ID</th>
+                    <th>Odometer</th>
+                    <th>Fuel Level</th>
+                    <th>Complain</th>
+                    <th>Date</th>
+                    <th>Update</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
+<script>
+    function add_service_request() {
+        localStorage.clear();
+        $("#box").load("Master/Pending_Service_Profile.html");
+    }
+
+    function update_service_request(requestId) {
+        localStorage.setItem("requestId", requestId);
+        $("#box").load("Master/Pending_Service_Profile.html");
+    }
+
+    $(document).ready(function () {
+        var table = $('#pending_service_details_table').DataTable({
+            pageLength: 5,
+            lengthMenu: [[5, 10, 20], [5, 10, 20]],
+            "ordering": true,
+        });
+        AJAXCall('http://localhost:8080/api/servicerequest/all', 'GET', null, 'Pending_Service_Details', table);
+    });
+</script>

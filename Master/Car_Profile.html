@@ -1,0 +1,100 @@
+﻿<!--Car Profile-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Car Profile</title>
+</head>
+<body>
+    <form class="ui center aligned input form container" id="car_profile_form">
+        <table class="ui center aligned fixed inverted celled table" aria-describedby="Car Profile Table" style="color:gold">
+            <thead>
+                <tr>
+                    <th colspan="2" scope="colgroup"> Car Profile </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="font-weight:bolder">VIN</td>
+                    <td><input type="text" class="ui textbox" id="vin" name="vin" style="background-color:black; color:gold" required /></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Customer ID</td>
+                    <td>
+                        <select class="ui dropdown" id="customerId" name="customerId" style="background-color:black; color:gold" required>
+                            <option value="" selected disabled hidden>Select a Customer ID</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Make</td>
+                    <td><input type="text" class="ui textbox" id="make" name="make" style="background-color:black; color:gold" required /></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Model</td>
+                    <td><input type="text" class="ui textbox" id="model" name="model" style="background-color:black; color:gold" required /></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Year</td>
+                    <td><input type="number" min="1000" max="2021" class="ui textbox" id="yearOfManufacture" name="yearOfManufacture" style="background-color:black; color:gold" required /></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Transmission</td>
+                    <td>
+                        <select class="ui dropdown" id="transmission" name="transmission" style="background-color:black; color:gold" required>
+                            <option value="" selected disabled hidden>Select Transmission</option>
+                            <option value="M">Manual</option>
+                            <option value="A">Automatic</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Color</td>
+                    <td><input type="text" class="ui textbox" id="color" name="color" style="background-color:black; color:gold" required /></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bolder">Mileage</td>
+                    <td><input type="number" min="0" class="ui textbox" id="averageMileage" name="averageMileage" style="background-color:black; color:gold" required /></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" class="ui inverted button" style="color:gold" />
+                        <input type="reset" class="ui inverted button" style="color:gold" />
+                        <button type="button" class="ui inverted button" style="color:gold" onclick="$('#box').load('Master/Car_Details.html');"> Back </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</body>
+</html>
+
+<script>
+
+    $(document).ready(function () {
+
+        AJAXCall('http://localhost:8080/api/customer/all', 'GET', null, 'Customer_Fill', null);
+
+        vin = localStorage.getItem("vin")
+
+        if (vin !== null) {
+            var data = { "vin" : vin };
+            AJAXCall('http://localhost:8080/api/car', 'GET', data, 'Car_Profile', null);
+        }
+
+        $("#car_profile_form").submit(function (e) {
+            e.preventDefault();
+            if (vin !== null) {
+                var data = $("#car_profile_form").serializeArray();
+                AJAXCall('http://localhost:8080/api/car/meta', 'GET', data, "Car_Search_Meta_Update", null);
+                $("#box").load("Master/Car_Details.html");
+            }
+            else {
+                var data = $("#car_profile_form").serializeArray();
+                AJAXCall('http://localhost:8080/api/car/meta', 'GET', data, "Car_Search_Meta", null);
+            }
+        });
+
+    });
+
+</script>
