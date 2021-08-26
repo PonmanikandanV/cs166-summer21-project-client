@@ -1,1 +1,3 @@
-# cs166-summer21-project-client
+# CS105 - Summer 2021 - Final Project - Client Code
+Arun Venkatesh <br>
+Ponmanikandan Velmurugan
