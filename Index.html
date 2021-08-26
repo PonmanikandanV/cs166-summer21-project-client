@@ -400,7 +400,7 @@
             data["fuelLevel"] = document.getElementById("fuelLevel").textContent;
             data["billId"] = response[0].billId;
             data["statusId"] = "0";
-            AJAXCall('http://localhost:8080/api/servicerequest/close', 'POST', data, null, null);
+            AJAXCall('http://localhost:8080/api/servicerequest/close', 'PUT', data, null, null);
             $("#box").load("Master/Closed_Service_Details.html");
         }
         else if (name == "Closed_Service_View_Profile") {
@@ -453,7 +453,7 @@
         else if (name == "Filter_Nine_Details") {
             table.clear();
             response.forEach((element) => {
-                table.row.add([element.make, element.model, element.manufacture]);
+                table.row.add([element.make, element.model, element.total]);
             });
             table.draw();
         }
