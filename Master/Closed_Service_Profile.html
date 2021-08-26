@@ -58,8 +58,8 @@
                 </tr>
                 <tr>
                     <td colspan="4">
-                        <input type="submit" class="ui inverted button" style="color:gold" />
-                        <input type="reset" class="ui inverted button" style="color:gold" />
+                        <input type="submit" class="ui inverted button" id="submit_button" style="color:gold" />
+                        <input type="reset" class="ui inverted button" id="reset_button" style="color:gold" />
                         <button type="button" class="ui inverted button" style="color:gold" onclick="$('#box').load('Master/Closed_Service_Details.html');"> Back </button>
                     </td>
                 </tr>
@@ -78,6 +78,8 @@
         requestId = localStorage.getItem("requestId")
 
         if (requestId !== null) {
+            $("#submit_button").remove();
+            $("#reset_button").remove();
             var data = { requestId : requestId };
             AJAXCall('http://localhost:8080/api/servicerequest/', 'GET', data, 'Closed_Service_View_Profile', null);
         }
